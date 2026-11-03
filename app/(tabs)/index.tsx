@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { useCallback, useRef } from "react";
 import {
   FlatList,
@@ -7,11 +8,10 @@ import {
   TextInput,
   View,
 } from "react-native";
-import { useRouter } from "expo-router";
+import DiaryCard from "../../src/components/DiaryCard";
 import { useDiary } from "../../src/context/DiaryContext";
 import { useDiarySearch } from "../../src/hooks/useDiarySearch";
-import DiaryCard from "../../src/components/DiaryCard";
-import { COLORS, SPACE, TYPO, RADIUS } from "../../src/styles/tokens";
+import { COLORS, RADIUS, SPACE } from "../../src/styles/tokens";
 
 const MOODS = ["😄", "😌", "😐", "😔"];
 
@@ -27,7 +27,8 @@ export default function HomeScreen() {
     filteredEntries,
     resultCount,
   } = useDiarySearch(entries);
-  const searchRef = useRef<TextInput>(null);
+
+  const searchRef = useRef<any>(null);
 
   const openDetail = useCallback(
     (id: number) => {
@@ -55,6 +56,7 @@ export default function HomeScreen() {
           </Pressable>
         )}
       </View>
+
       <View style={styles.moodRow}>
         {MOODS.map((m) => (
           <Pressable
@@ -66,7 +68,9 @@ export default function HomeScreen() {
           </Pressable>
         ))}
       </View>
+
       <Text style={styles.counter}>{resultCount} entri ditemukan</Text>
+
       <FlatList
         data={filteredEntries}
         keyExtractor={(item) => String(item.id)}
